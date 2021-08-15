@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleeping Dogs Mods", "Sleeping Dogs Mods.csproj", "{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|x64.ActiveCfg = Debug|x64
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|x64.Build.0 = Debug|x64
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|x86.ActiveCfg = Debug|x86
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Debug|x86.Build.0 = Debug|x86
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|x64.ActiveCfg = Release|x64
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|x64.Build.0 = Release|x64
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|x86.ActiveCfg = Release|x86
+		{40AFD1FE-A86C-4EFF-BB12-8A04551AD6F9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {434DB786-D3E9-4405-828B-7C59ED837760}
+	EndGlobalSection
+EndGlobal
