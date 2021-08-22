@@ -29,9 +29,7 @@ namespace Sleeping_Dogs_Mods
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
@@ -40,6 +38,7 @@ namespace Sleeping_Dogs_Mods
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -51,10 +50,6 @@ namespace Sleeping_Dogs_Mods
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Unlimited Money";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // checkBox2
             // 
@@ -69,7 +64,7 @@ namespace Sleeping_Dogs_Mods
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(12, 58);
+            this.checkBox3.Location = new System.Drawing.Point(12, 82);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(103, 17);
             this.checkBox3.TabIndex = 2;
@@ -79,7 +74,7 @@ namespace Sleeping_Dogs_Mods
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(12, 81);
+            this.checkBox4.Location = new System.Drawing.Point(12, 105);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(103, 17);
             this.checkBox4.TabIndex = 3;
@@ -89,7 +84,7 @@ namespace Sleeping_Dogs_Mods
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(12, 104);
+            this.checkBox5.Location = new System.Drawing.Point(12, 128);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(103, 17);
             this.checkBox5.TabIndex = 4;
@@ -98,21 +93,21 @@ namespace Sleeping_Dogs_Mods
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(146, 55);
+            this.textBox1.Location = new System.Drawing.Point(146, 79);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 5;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(146, 79);
+            this.textBox2.Location = new System.Drawing.Point(146, 103);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 6;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(146, 101);
+            this.textBox3.Location = new System.Drawing.Point(146, 125);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 7;
@@ -120,12 +115,16 @@ namespace Sleeping_Dogs_Mods
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(13, 128);
+            this.checkBox6.Location = new System.Drawing.Point(12, 58);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(48, 17);
+            this.checkBox6.Size = new System.Drawing.Size(101, 17);
             this.checkBox6.TabIndex = 8;
-            this.checkBox6.Text = "9mm";
+            this.checkBox6.Text = "Unlimited Ammo";
             this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // Form1
             // 
@@ -142,7 +141,7 @@ namespace Sleeping_Dogs_Mods
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sleeping Dogs Cheats";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -152,7 +151,6 @@ namespace Sleeping_Dogs_Mods
         #endregion
 
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
@@ -161,6 +159,7 @@ namespace Sleeping_Dogs_Mods
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.CheckBox checkBox6;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
