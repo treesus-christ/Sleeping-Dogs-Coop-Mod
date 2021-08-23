@@ -333,6 +333,8 @@ namespace Sleeping_Dogs_Mods
 
         bool EnableHackAllocCheck = false;
 
+        int PIDCheck;
+
         public Form1()
         {
             InitializeComponent();
@@ -343,6 +345,7 @@ namespace Sleeping_Dogs_Mods
         private void Form1_Load(object sender, EventArgs e)
         {
             int PID = connection.GetProcIdFromName("sdhdship");
+            PIDCheck = connection.GetProcIdFromName("sdhdship");
             if (PID > 0)
             {
                 connection.OpenProcess(PID);
@@ -350,11 +353,10 @@ namespace Sleeping_Dogs_Mods
                 textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress2);
                 textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress3);
                 memcon = new MemoryContext(Process.GetProcessById(PID));
-
-                if (!backgroundWorker1.IsBusy)
-                {
-                    backgroundWorker1.RunWorkerAsync();
-                }
+            }
+            if (!backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.RunWorkerAsync();
             }
         }
 
@@ -506,7 +508,7 @@ namespace Sleeping_Dogs_Mods
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void CleanGame()
         {
             connection.UnfreezeValue(unlimited_money_address);
             connection.UnfreezeValue(unlimited_health_address);
@@ -517,18 +519,51 @@ namespace Sleeping_Dogs_Mods
             DisableHack();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CleanGame();
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
+                PIDCheck = connection.GetProcIdFromName("sdhdship");
+                if (PIDCheck == 0)
+                {
+                    while (PIDCheck == 0)
+                    {
+                        PIDCheck = connection.GetProcIdFromName("sdhdship");
+                    }
+                    connection.OpenProcess(PIDCheck);
+                    textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress1);
+                    textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress2);
+                    textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress3);
+                    memcon = new MemoryContext(Process.GetProcessById(PIDCheck));
+                    CleanGame();
+
+                    if (!backgroundWorker1.IsBusy)
+                    {
+                        backgroundWorker1.RunWorkerAsync();
+                    }
+                }
+
                 if (checkBox1.Checked)
                 {
                     connection.FreezeValue(unlimited_money_address, "int", "10000000");
+                }
+                else
+                {
+                    connection.UnfreezeValue(unlimited_money_address);
                 }
 
                 if (checkBox2.Checked)
                 {
                     connection.FreezeValue(unlimited_health_address, "float", "2000");
+                }
+                else
+                {
+                    connection.UnfreezeValue(unlimited_health_address);
                 }
 
                 //X
@@ -540,6 +575,7 @@ namespace Sleeping_Dogs_Mods
                 {
                     textBox1.Text = connection.ReadFloat(x_position_address).ToString();
                     textBox1.ReadOnly = true;
+                    connection.UnfreezeValue(x_position_address);
                 }
 
                 //Y
@@ -551,6 +587,7 @@ namespace Sleeping_Dogs_Mods
                 {
                     textBox2.Text = connection.ReadFloat(y_position_address).ToString();
                     textBox2.ReadOnly = true;
+                    connection.UnfreezeValue(y_position_address);
                 }
 
                 //Z
@@ -562,6 +599,7 @@ namespace Sleeping_Dogs_Mods
                 {
                     textBox3.Text = connection.ReadFloat(z_position_address).ToString();
                     textBox3.ReadOnly = true;
+                    connection.UnfreezeValue(z_position_address);
                 }
 
                 if (checkBox6.Checked)
@@ -572,12 +610,6 @@ namespace Sleeping_Dogs_Mods
                 {
                     DisableHack();
                 }
-                connection.UnfreezeValue(unlimited_money_address);
-                connection.UnfreezeValue(unlimited_health_address);
-                connection.UnfreezeValue(x_position_address);
-                connection.UnfreezeValue(y_position_address);
-                connection.UnfreezeValue(z_position_address);
-                connection.UnfreezeValue(z_position_address);
             }
         }
     }
