@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Memory;
 
@@ -121,13 +115,13 @@ namespace Sleeping_Dogs_Mods
                 int iPointerCount = Offset.Length - 1;
                 IntPtr ptrBytesRead;
                 bytesRead = 0;
-                byte[] buffer = new byte[4]; //DWORD to hold an Address
+                byte[] buffer = new byte[4];
                 long tempAddress = 0;
 
                 if (iPointerCount == 0)
                 {
                     MemoryAPI.ReadProcessMemory(m_hProcess, MemoryAddress, buffer, 4, out ptrBytesRead);
-                    tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[0]; //Final Address
+                    tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[0];
 
                     buffer = new byte[bytesToRead];
                     MemoryAPI.ReadProcessMemory(m_hProcess, (IntPtr)tempAddress, buffer, bytesToRead, out ptrBytesRead);
@@ -141,7 +135,7 @@ namespace Sleeping_Dogs_Mods
                     if (i == iPointerCount)
                     {
                         MemoryAPI.ReadProcessMemory(m_hProcess, (IntPtr)tempAddress, buffer, 4, out ptrBytesRead);
-                        tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[i]; //Final Address
+                        tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[i];
 
                         buffer = new byte[bytesToRead];
                         MemoryAPI.ReadProcessMemory(m_hProcess, (IntPtr)tempAddress, buffer, bytesToRead, out ptrBytesRead);
@@ -176,13 +170,13 @@ namespace Sleeping_Dogs_Mods
                 uint iPointerCount = (uint)Offset.Length - 1;
                 IntPtr ptrBytesWritten;
                 bytesWritten = 0;
-                byte[] buffer = new byte[4]; //DWORD to hold an Address
+                byte[] buffer = new byte[4];
                 long tempAddress = 0;
 
                 if (iPointerCount == 0)
                 {
                     MemoryAPI.ReadProcessMemory(m_hProcess, MemoryAddress, buffer, 4, out ptrBytesWritten);
-                    tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[0]; //Final Address
+                    tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[0];
                     MemoryAPI.WriteProcessMemory(m_hProcess, (IntPtr)tempAddress, bytesToWrite, (uint)bytesToWrite.Length, out ptrBytesWritten);
 
                     bytesWritten = ptrBytesWritten.ToInt64();
@@ -194,7 +188,7 @@ namespace Sleeping_Dogs_Mods
                     if (i == iPointerCount)
                     {
                         MemoryAPI.ReadProcessMemory(m_hProcess, (IntPtr)tempAddress, buffer, 4, out ptrBytesWritten);
-                        tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[i]; //Final Address
+                        tempAddress = Addr.ToDec(Addr.Make(buffer)) + Offset[i];
                         MemoryAPI.WriteProcessMemory(m_hProcess, (IntPtr)tempAddress, bytesToWrite, (uint)bytesToWrite.Length, out ptrBytesWritten);
 
                         bytesWritten = ptrBytesWritten.ToInt64();
@@ -263,12 +257,12 @@ namespace Sleeping_Dogs_Mods
 
             public static string ToHex(long Decimal)
             {
-                return Decimal.ToString("X"); //Convert Decimal to Hexadecimal
+                return Decimal.ToString("X");
             }
 
             public static long ToDec(string Hex)
             {
-                return long.Parse(Hex, NumberStyles.HexNumber); //Convert Hexadecimal to Decimal
+                return long.Parse(Hex, NumberStyles.HexNumber);
             }
         }
 
@@ -321,10 +315,8 @@ namespace Sleeping_Dogs_Mods
         MemoryContext memcon;
 
 
-        //"SDHDShip.exe"+02409CE0 + 3C4
         string unlimited_money_address = "SDHDShip.exe+0x02409CE0,0x3C4";
 
-        //
         string unlimited_health_address = "SDHDShip.exe+0x02087B78,0x14";
 
         string x_position_address = "SDHDShip.exe+0x021738A8,0x220";
@@ -335,17 +327,16 @@ namespace Sleeping_Dogs_Mods
 
         int PIDCheck;
 
-        public Form1()
+		public Form1()
         {
-            InitializeComponent();
+			InitializeComponent();
 
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+		private void Form1_Load(object sender, EventArgs e)
         {
-            int PID = connection.GetProcIdFromName("sdhdship");
-            PIDCheck = connection.GetProcIdFromName("sdhdship");
+			int PID = connection.GetProcIdFromName("sdhdship");
             if (PID > 0)
             {
                 connection.OpenProcess(PID);
@@ -353,98 +344,76 @@ namespace Sleeping_Dogs_Mods
                 textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress2);
                 textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckEnterKeyPress3);
                 memcon = new MemoryContext(Process.GetProcessById(PID));
-            }
+			}
             if (!backgroundWorker1.IsBusy)
             {
                 backgroundWorker1.RunWorkerAsync();
             }
         }
 
-        long newmem = 0;
+		long newmem = 0;
 
         private void EnableHack()
         {
             if (EnableHackAllocCheck) return;
-            Process[] process = Process.GetProcessesByName("sdhdship"); //Find FarmFrenzy3_Arctica.wrp.exe
-            oMemory.ReadProcess = process[0]; //Sets the Process to Read/Write From/To
-            oMemory.Open(); //Open Process
+            Process[] process = Process.GetProcessesByName("sdhdship");
+            oMemory.ReadProcess = process[0];
+            oMemory.Open();
             memcon = new MemoryContext(process[0]);
-            //if (!EnableHackAllocCheck)
-            //{
-                //oMemory.Alloc(out newmem, 1000); //New memory allocation "code cave"
-                oMemory.Alloc(out newmem, memcon.GetBaseAddressLong() - 0x10000, 4096); //New memory allocation "code cave"
-                //while (string.Format("{0:X}", newmem).Length < 12)
-                //{
-                //    oMemory.Alloc(out newmem, long.Parse("100000000000", NumberStyles.HexNumber), 4096); //New memory allocation "code cave"
-                //    if (string.Format("{0:X}", newmem).Length >= 12)
-                //    {
-                //        break;
-                //    }
-                //    else
-                //    {
-                //        oMemory.Dealloc(newmem); //Release newmem "code cave"
-                //    }
-                //}
-            //}
-
-            //byte[] originalBytes = { 0xF3, 0x0F, 0x11, 0x40, 0x04 };
-            //byte[] newBytes = { 0xE9, 0x7A, 0xC2 };
-            //UIntPtr codecavebase = connection.CreateCodeCave("base+63D81", newBytes, 6, 1000);
-            //UIntPtr codecaveAllocAddress = UIntPtr.Add(codecavebase, newBytes.Length);
-            long ad1 = Addr.ToDec(memcon.AddHexOffsetToBaseAddress("54F961")); //Static address
+                oMemory.Alloc(out newmem, memcon.GetBaseAddressLong() - 0x10000, 4096);
+            long ad1 = Addr.ToDec(memcon.AddHexOffsetToBaseAddress("54F961"));
             string ad1_HexAddress = string.Format("{0:X}", ad1);
-            long ad2 = newmem; //newmem
+            long ad2 = newmem;
             string ad2_HexAddress = string.Format("{0:X}", ad2);
-            long ad3 = ad2 + 0x0B; //newmem + 6 bytes (see bv2 below)
+            long ad3 = ad2 + 0x0B;
             string ad3_HexAddress = string.Format("{0:X}", ad3);
-            long ad4 = ad2 + 0x12; //newmem + 10 bytes (see bv3 below)
+            long ad4 = ad2 + 0x12;
             string ad4_HexAddress = string.Format("{0:X}", ad4);
             long ad5 = ad1 + 0x07;
             string ad5_HexAddress = string.Format("{0:X}", ad5);
 
-            byte[] bv1 = Jmp(Addr.ToHex(ad2), Addr.ToHex(ad1), true); //jmp newmem nop (jmp newmem = 5 bytes, so add a nop)
+            byte[] bv1 = Jmp(Addr.ToHex(ad2), Addr.ToHex(ad1), true);
             string[] bv1_Hex = new string[bv1.Length];
             for (int i = 0; i < bv1.Length; i++)
             {
                 bv1_Hex[i] = string.Format("{0:X}", bv1[i]);
             }
-            byte[] bv2 = { 0xC7, 0x84, 0x83, 0xD4, 0x00, 0x00, 0x00, 0x99, 0x09, 0x00, 0x00 }; //7FF6B6DC0000 - mov [rbx+rax*4+000000D4],00000999
-            byte[] bv3 = { 0x8B, 0x94, 0x83, 0xD4, 0x00, 0x00, 0x00 }; //7FF7654A0012 - mov edx,[rbx+rax*4+000000D4]
-            byte[] bv4 = Jmp(Addr.ToHex(ad5), Addr.ToHex(ad4), false); //jmp 00545949 (ad1 + 7 bytes)
+            byte[] bv2 = { 0xC7, 0x84, 0x83, 0xD4, 0x00, 0x00, 0x00, 0x99, 0x09, 0x00, 0x00 };
+            byte[] bv3 = { 0x8B, 0x94, 0x83, 0xD4, 0x00, 0x00, 0x00 };
+            byte[] bv4 = Jmp(Addr.ToHex(ad5), Addr.ToHex(ad4), false);
             string[] bv4_Hex = new string[bv4.Length];
             for (int i = 0; i < bv4.Length; i++)
             {
                 bv4_Hex[i] = string.Format("{0:X}", bv4[i]);
             }
 
-            long bytes; //Holds how many bytes were written by Write()
+            long bytes;
 
             oMemory.Write((IntPtr)ad1, bv1, out bytes);
             oMemory.Write((IntPtr)ad2, bv2, out bytes);
             oMemory.Write((IntPtr)ad3, bv3, out bytes);
             oMemory.Write((IntPtr)ad4, bv4, out bytes);
 
-            oMemory.CloseHandle(); //Close Memory Handle
+            oMemory.CloseHandle();
             EnableHackAllocCheck = true;
         }
 
         private void DisableHack()
         {
             if (!EnableHackAllocCheck) return;
-            Process[] process = Process.GetProcessesByName("sdhdship"); //Find FarmFrenzy3_Arctica.wrp.exe
-            oMemory.ReadProcess = process[0]; //Sets the Process to Read/Write From/To
-            oMemory.Open(); //Open Process
-            oMemory.Dealloc(newmem); //Release newmem "code cave"
+            Process[] process = Process.GetProcessesByName("sdhdship");
+            oMemory.ReadProcess = process[0];
+            oMemory.Open();
+            oMemory.Dealloc(newmem);
 
-            //SDHDShip.exe+54F961
-            long ad1 = Addr.ToDec(memcon.AddHexOffsetToBaseAddress("54F961")); //Static address
-            byte[] bv1 = { 0x8B, 0x94, 0x83, 0xD4, 0x00, 0x00, 0x00 }; //mov edx,[rbx+rax*4+000000D4]
+            long ad1 = Addr.ToDec(memcon.AddHexOffsetToBaseAddress("54F961"));
+            byte[] bv1 = { 0x8B, 0x94, 0x83, 0xD4, 0x00, 0x00, 0x00 };
 
-            long bytes; //Holds how many bytes were written by Write()
+            long bytes;
 
             oMemory.Write((IntPtr)ad1, bv1, out bytes);
 
-            oMemory.CloseHandle(); //Close Memory Handle
+            oMemory.CloseHandle();
             EnableHackAllocCheck = false;
         }
 
@@ -456,30 +425,25 @@ namespace Sleeping_Dogs_Mods
         private byte[] Jmp(long to, long from, bool nop)
         {
             string dump;
-            //string dump = (to - from - 5).ToString("X"); //Get original bytes
-            //dump = (0 - (from - to) - 5).ToString("X"); //Get original bytes
-            dump = ((int)(0 - (from - to) - 5)).ToString("X"); //Get original bytes
+            dump = ((int)(0 - (from - to) - 5)).ToString("X");
 
-            //dump = dump.Substring(dump.Length / 2, dump.Length / 2);
-
-            if (dump.Length % 4 != 0) //Make sure we have 4 bytes
+            if (dump.Length % 4 != 0)
             {
                 while (dump.Length % 4 != 0)
                 {
                     dump = "0" + dump;
-                    //dump = dump + "0";
                 }
             }
-            dump = dump + "E9"; //Add JMP
+            dump = dump + "E9";
             if (nop)
-                dump = "9066" + dump; //Add NOP if needed
+                dump = "9066" + dump;
 
             byte[] hex = new byte[dump.Length / 2];
             for (int i = 0; i < hex.Length; i++)
             {
-                hex[i] = Convert.ToByte(dump.Substring(i * 2, 2), 16); //Set each byte to 2 chars
+                hex[i] = Convert.ToByte(dump.Substring(i * 2, 2), 16);
             }
-            Array.Reverse(hex); //Reverse byte array for use with Write()
+            Array.Reverse(hex);
 
             return hex;
         }
@@ -517,7 +481,7 @@ namespace Sleeping_Dogs_Mods
             connection.UnfreezeValue(z_position_address);
             connection.UnfreezeValue(z_position_address);
             DisableHack();
-        }
+		}
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -610,7 +574,7 @@ namespace Sleeping_Dogs_Mods
                 {
                     DisableHack();
                 }
-            }
+			}
         }
     }
 }
